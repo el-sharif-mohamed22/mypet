@@ -26,7 +26,9 @@ const reject = async () => {
   <v-card v-if="isComponentVisible" class="mx-auto my-3" max-width="344" elevation="2">
     <v-card-title class="justify-space-between">
       Application {{ props.application.applicationId }}
-      <span :class="`status ${props.application.status.toLowerCase()}`">{{ props.application.status }}</span>
+      <span :class="`status ${props.application.status.toLowerCase()}`">{{
+        props.application.status
+      }}</span>
     </v-card-title>
 
     <v-card-text>
@@ -55,5 +57,8 @@ const reject = async () => {
 }
 .status.rejected {
   background-color: red;
+}
+.status.pending {
+  background-color: orange;
 }
 </style>

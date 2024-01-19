@@ -7,9 +7,18 @@ const props = defineProps({
 })
 const store = useUserStore()
 const dialog = ref(false)
-const submit = (data) => {
-  applyApplication(store.userId, props.pet.petId, data)
-  dialog.value = false
+const errorMessage = ref('')
+
+const submit = async (data) => {
+  try {
+    await applyApplication(store.userId, props.pet.petId, data)
+    dialog.value = false
+    // Reset the error message in case of success
+    errorMessage.value = ''
+  } catch (error) {
+    // Set the error message to display to the user
+    errorMessage.value = error.message || 'An error occurred while submitting the application.'
+  }
 }
 </script>
 
@@ -77,6 +86,7 @@ const submit = (data) => {
           <v-spacer></v-spacer>
           <v-btn text="Close Form" @click="dialog = false"></v-btn>
         </v-card-actions>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </v-card>
     </v-dialog>
   </v-btn>

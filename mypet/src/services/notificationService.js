@@ -3,7 +3,7 @@ const BASEURL = 'http://localhost:8080/adopters'
 
 export async function getNotifications(adopterId) {
   const res = await axios.get(`${BASEURL}/unreadNotifications/${adopterId}`)
-  return res
+  return res.data
 }
 export async function markNotificationRead(adopterId, notificationId) {
   const res = await axios.put(`${BASEURL}/makeRead/${adopterId}/${notificationId}`)

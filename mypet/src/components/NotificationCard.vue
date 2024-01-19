@@ -1,19 +1,24 @@
 <script setup>
 import { markNotificationRead } from '@/services/notificationService.js'
-import { ref } from 'vue'
 import { useUserStore } from '@/store/user'
 const store = useUserStore()
 const props = defineProps({
   notification: Object
 })
-const isComponentVisible = ref(true)
+const emits = defineEmits(['notification-read'])
+
 const markAsRead = async () => {
-  await markNotificationRead(store.userId, props.notification.notificationId)
-  isComponentVisible.value = false
+  try {
+    await markNotificationRead(store.userId, props.notification.notificationId)
+    emits('notification-read')
+  } catch (error) {
+    console.error('Error marking notification as read:', error)
+    // Handle the error appropriately, e.g., show an error message to the user
+  }
 }
 </script>
 <template>
-  <v-card v-if="isComponentVisible" class="mx-auto" max-width="344" variant="elevated">
+  <v-card class="mx-auto" max-width="344" variant="elevated">
     <v-card-item>
       <template v-slot:title> Notification{{ props.notification.notificationId }} </template>
 
